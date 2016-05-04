@@ -15,6 +15,14 @@ String^ Services::Cpp::CLI::Service::Get()
 	return res;	// Call native Get
 }
 
+void Services::Cpp::CLI::Service::Add(String^ s)
+{
+	VARIANT v = { VT_BSTR };
+	v.bstrVal = (BSTR)Marshal::StringToBSTR(s).ToPointer();
+
+	_impl->Add(v.bstrVal);
+}
+
 void Services::Cpp::CLI::Service::Destroy()
 {
 	if (_impl != nullptr)

@@ -6,10 +6,24 @@
         xmlns:local="clr-namespace:Services.WPF"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
-        WindowStyle="ToolWindow"
         WindowStartupLocation="CenterScreen"
-        Title="Example">
-    <Grid>
-        <Button Content="Click me!" Padding="20" Click="Button_Click" />
+        Title="MWWC">
+    <Grid Margin="10">
+        <StackPanel HorizontalAlignment="Left" Height="140" Margin="0,0,0,0" VerticalAlignment="Top" Width="100">
+            <Label x:Name="idLabel" Content="Employee ID" Margin="0,0,0,2"/>
+            <Label x:Name="nameLabel" Content="Name" Margin="0,0,0,2"/>
+            <Label x:Name="joiningDateLabel" Content="Joining Date" Margin="0,0,0,2"/>
+            <Label x:Name="companyNameLabel" Content="Company Name" Margin="0,0,0,2"/>
+            <Label x:Name="addressLabel" Content="Address" Margin="0,0,0,2"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" Height="140" Margin="100,0,0,0" VerticalAlignment="Top" Width="100">
+            <TextBox x:Name="employeeId" Height="23" TextWrapping="Wrap" Text="" Margin="0,0,0,5"/>
+            <TextBox x:Name="name" Height="23" TextWrapping="Wrap" Text="" Margin="0,0,0,5"/>
+            <TextBox x:Name="joiningDate" Height="23" TextWrapping="Wrap" Text="" Margin="0,0,0,5"/>
+            <TextBox x:Name="companyName" Height="23" TextWrapping="Wrap" Text="" Margin="0,0,0,5"/>
+            <TextBox x:Name="address" Height="23" TextWrapping="Wrap" Text="" Margin="0,0,0,5"/>
+        </StackPanel>
+        <Button x:Name="addEmployee" Content="Add Employee" HorizontalAlignment="Left" Margin="210,0,0,0" VerticalAlignment="Top" Width="130" Height="35" Click="addEmployee_Click"/>
+        <Button x:Name="getEmployees" Content="Get All Employee" Click="getEmployees_Click" HorizontalAlignment="Left" Margin="210,40,0,0" VerticalAlignment="Top" Width="130" Height="35"/>
     </Grid>
 </Window>

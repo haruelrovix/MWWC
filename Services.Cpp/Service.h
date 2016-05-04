@@ -4,6 +4,7 @@
 #undef _WINSOCKAPI_
 #define _WINSOCKAPI_
 
+#include <codecvt>
 #include <iostream>
 #include <sstream>
 #include <WTypes.h>
@@ -32,6 +33,8 @@ namespace Services
 		{
 		public:
 			BSTR Get();
+
+			void Add(BSTR bstr);
 		};
 	}
 }

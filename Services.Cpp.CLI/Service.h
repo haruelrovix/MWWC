@@ -7,6 +7,7 @@
 #include <OleAuto.h>
 
 using namespace System;
+using namespace Runtime::InteropServices;
 
 namespace Services
 {
@@ -24,6 +25,8 @@ namespace Services
 				!Service();
 
 				String^ Get();
+				
+				void Add(String^ str);
 
 				void Destroy();
 

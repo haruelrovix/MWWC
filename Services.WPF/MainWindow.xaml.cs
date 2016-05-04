@@ -26,12 +26,28 @@ namespace Services.WPF
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void getEmployees_Click(object sender, RoutedEventArgs e)
         {
             using (Service wrapper = new Service())
             // Using block is here to make sure we release native memory right away
             {
                 MessageBox.Show(wrapper.Get());
+            }
+        }
+
+        private void addEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            using (Service wrapper = new Service())
+            {
+                String str = "{ ";
+                str += "\"EmployeeID\": \"" + employeeId.Text;
+                str += "\", \"Name\": \"" + name.Text;
+                str += "\", \"JoiningDate\": \"" + joiningDate.Text;
+                str += "\", \"CompanyName\": \"" + companyName.Text;
+                str += "\", \"Address\": \"" + address.Text;
+                str += "\" }";
+
+                wrapper.Add(str);
             }
         }
     }

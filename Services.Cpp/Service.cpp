@@ -1,7 +1,9 @@
 // Services.Cpp/Service.cpp
 #include "Service.h"
 
-BSTR ConvertMBSToBSTR(const std::string& str)
+#pragma region Private Methods
+
+BSTR s2bstr(const std::string& str)
 {
 	int wslen = ::MultiByteToWideChar(CP_ACP, 0 /* no flags */,
 		str.data(), str.length(),
@@ -14,6 +16,16 @@ BSTR ConvertMBSToBSTR(const std::string& str)
 
 	return wsdata;
 }
+
+string ws2s(const std::wstring& wstr)
+{
+	using convert_typeX = codecvt_utf8<wchar_t>;
+	wstring_convert<convert_typeX, wchar_t> converter;
+
+	return converter.to_bytes(wstr);
+}
+
+#pragma endregion
 
 BSTR Services::Cpp::Service::Get()
 {
@@ -29,5 +41,25 @@ BSTR Services::Cpp::Service::Get()
 	ostringstream os;
 	StreamCopier::copyStream(rs, os);
 
-	return ConvertMBSToBSTR(os.str());
+	return s2bstr(os.str());
+}
+
+void Services::Cpp::Service::Add(BSTR bstr)
+{
+	HTTPClientSession session("localhost", 57313);
+	HTTPRequest request(HTTPRequest::HTTP_POST, "/EmployeeService.svc/AddNewEmployee", HTTPMessage::HTTP_1_1);
+	request.setHost("localhost", 57313);
+	request.setKeepAlive(false);
+	request.setContentType("application/json");
+
+	wstring ws(bstr, ::SysStringLen(bstr));
+	string str = ws2s(ws);
+	request.setContentLength(str.length());
+	session.sendRequest(request) << str;
+
+	HTTPResponse response;
+	istream& is = session.receiveResponse(response);
+
+	ostringstream os;
+	StreamCopier::copyStream(is, os);
 }
