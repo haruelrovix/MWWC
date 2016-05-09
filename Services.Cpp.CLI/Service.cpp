@@ -35,6 +35,14 @@ void Services::Cpp::CLI::Service::Add(String^ s)
 	_impl->Add(v.bstrVal);
 }
 
+void Services::Cpp::CLI::Service::Delete(String^ id)
+{
+	VARIANT v = { VT_BSTR };
+	v.bstrVal = (BSTR)Marshal::StringToBSTR(id).ToPointer();
+
+	_impl->Delete(v.bstrVal);
+}
+
 void Services::Cpp::CLI::Service::Destroy()
 {
 	if (_impl != nullptr)

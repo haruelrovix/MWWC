@@ -58,5 +58,13 @@ namespace Services.WPF
                 MessageBox.Show(wrapper.GetById(employeeId.Text));
             }
         }
+
+        private void deleteEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            using (Service wrapper = new Service())
+            {
+                wrapper.Delete(employeeId.Text);
+            }
+        }
     }
 }

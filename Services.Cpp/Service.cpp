@@ -83,3 +83,21 @@ void Services::Cpp::Service::Add(BSTR bstr)
 	ostringstream os;
 	StreamCopier::copyStream(is, os);
 }
+
+void Services::Cpp::Service::Delete(BSTR id)
+{
+	wstring ws(id, ::SysStringLen(id));
+	string str = ws2s(ws);
+
+	HTTPClientSession session("localhost", 57313);
+	HTTPRequest request(HTTPRequest::HTTP_DELETE, "/EmployeeService.svc/DeleteEmployee/" + str, HTTPMessage::HTTP_1_1);
+	request.setHost("localhost", 57313);
+	request.setKeepAlive(false);
+	session.sendRequest(request);
+
+	HTTPResponse response;
+	istream& rs = session.receiveResponse(response);
+
+	ostringstream os;
+	StreamCopier::copyStream(rs, os);
+}

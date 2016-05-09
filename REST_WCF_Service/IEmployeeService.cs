@@ -35,9 +35,9 @@ namespace REST_WCF_Service
 
         [OperationContract]
         [WebInvoke(Method = "DELETE",
-            UriTemplate = "DeleteEmployee/{EmpId}",
+            UriTemplate = "DeleteEmployee/{employeeId}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        void DeleteEmployee(string EmpId);
+        void DeleteEmployee(string employeeId);
     }
 }

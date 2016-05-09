@@ -37,6 +37,8 @@ namespace Services
 			BSTR GetById(BSTR id);
 
 			void Add(BSTR bstr);
+
+			void Delete(BSTR id);
 		};
 	}
 }

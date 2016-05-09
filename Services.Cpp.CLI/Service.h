@@ -30,6 +30,8 @@ namespace Services
 				
 				void Add(String^ str);
 
+				void Delete(String^ id);
+
 				void Destroy();
 
 			private:
