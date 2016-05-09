@@ -88,8 +88,24 @@ namespace REST_WCF_Service
             return emp;
         }
 
-        public void UpdateEmployee(EmployeeDataContract employee)
+        public async void UpdateEmployee(EmployeeDataContract employee)
         {
+            MongoClient client = new MongoClient();
+            IMongoDatabase database = client.GetDatabase("EmployeeData");
+            IMongoCollection<BsonDocument> collection = database.GetCollection<BsonDocument>("Employees");
+
+            BsonDocument document = new BsonDocument
+            {
+                { "EmployeeID", employee.EmployeeID },
+                { "Name", employee.Name },
+                { "JoiningDate", employee.JoiningDate },
+                { "CompanyName", employee.CompanyName },
+                { "Address", employee.Address }
+            };
+
+            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq("EmployeeID", employee.EmployeeID);
+
+            await collection.ReplaceOneAsync(filter, document);
         }
     }
 }

@@ -38,6 +38,8 @@ namespace Services
 
 			void Add(BSTR bstr);
 
+			void Update(BSTR bstr);
+
 			void Delete(BSTR id);
 		};
 	}

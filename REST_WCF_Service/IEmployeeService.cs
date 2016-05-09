@@ -26,16 +26,18 @@ namespace REST_WCF_Service
             UriTemplate = "/AddNewEmployee",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        void AddNewEmployee(EmployeeDataContract emp);
+        void AddNewEmployee(EmployeeDataContract employee);
 
         [OperationContract]
         [WebInvoke(Method = "PUT",
+            UriTemplate = "/UpdateEmployee",
+            RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        void UpdateEmployee(EmployeeDataContract contact);
+        void UpdateEmployee(EmployeeDataContract employee);
 
         [OperationContract]
         [WebInvoke(Method = "DELETE",
-            UriTemplate = "DeleteEmployee/{employeeId}",
+            UriTemplate = "/DeleteEmployee/{employeeId}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         void DeleteEmployee(string employeeId);

@@ -84,6 +84,26 @@ void Services::Cpp::Service::Add(BSTR bstr)
 	StreamCopier::copyStream(is, os);
 }
 
+void Services::Cpp::Service::Update(BSTR bstr)
+{
+	HTTPClientSession session("localhost", 57313);
+	HTTPRequest request(HTTPRequest::HTTP_PUT, "/EmployeeService.svc/UpdateEmployee", HTTPMessage::HTTP_1_1);
+	request.setHost("localhost", 57313);
+	request.setKeepAlive(false);
+	request.setContentType("application/json");
+
+	wstring ws(bstr, ::SysStringLen(bstr));
+	string str = ws2s(ws);
+	request.setContentLength(str.length());
+	session.sendRequest(request) << str;
+
+	HTTPResponse response;
+	istream& is = session.receiveResponse(response);
+
+	ostringstream os;
+	StreamCopier::copyStream(is, os);
+}
+
 void Services::Cpp::Service::Delete(BSTR id)
 {
 	wstring ws(id, ::SysStringLen(id));

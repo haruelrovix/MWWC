@@ -39,6 +39,22 @@ namespace Services.WPF
             }
         }
 
+        private void updateEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            string str = "{ ";
+            str += "\"EmployeeID\": \"" + employeeId.Text;
+            str += "\", \"Name\": \"" + name.Text;
+            str += "\", \"JoiningDate\": \"" + joiningDate.Text;
+            str += "\", \"CompanyName\": \"" + companyName.Text;
+            str += "\", \"Address\": \"" + address.Text;
+            str += "\" }";
+
+            using (Service wrapper = new Service())
+            {
+                wrapper.Update(str);
+            }
+        }
+
         private void getEmployeeById_Click(object sender, RoutedEventArgs e)
         {
             using (Service wrapper = new Service())
