@@ -25,5 +25,6 @@
         </StackPanel>
         <Button x:Name="addEmployee" Content="Add Employee" HorizontalAlignment="Left" Margin="210,0,0,0" VerticalAlignment="Top" Width="130" Height="35" Click="addEmployee_Click"/>
         <Button x:Name="getEmployees" Content="Get All Employee" Click="getEmployees_Click" HorizontalAlignment="Left" Margin="210,40,0,0" VerticalAlignment="Top" Width="130" Height="35"/>
+        <Button x:Name="getEmployeeById" Content="Get Employee By ID" Click="getEmployeeById_Click" HorizontalAlignment="Left" Margin="210,80,0,0" VerticalAlignment="Top" Width="130" Height="35"/>
     </Grid>
 </Window>

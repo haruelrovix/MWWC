@@ -34,6 +34,8 @@ namespace Services
 		public:
 			BSTR Get();
 
+			BSTR GetById(BSTR id);
+
 			void Add(BSTR bstr);
 		};
 	}

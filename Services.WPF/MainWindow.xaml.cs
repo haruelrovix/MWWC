@@ -37,17 +37,25 @@ namespace Services.WPF
 
         private void addEmployee_Click(object sender, RoutedEventArgs e)
         {
+            String str = "{ ";
+            str += "\"EmployeeID\": \"" + employeeId.Text;
+            str += "\", \"Name\": \"" + name.Text;
+            str += "\", \"JoiningDate\": \"" + joiningDate.Text;
+            str += "\", \"CompanyName\": \"" + companyName.Text;
+            str += "\", \"Address\": \"" + address.Text;
+            str += "\" }";
+
             using (Service wrapper = new Service())
             {
-                String str = "{ ";
-                str += "\"EmployeeID\": \"" + employeeId.Text;
-                str += "\", \"Name\": \"" + name.Text;
-                str += "\", \"JoiningDate\": \"" + joiningDate.Text;
-                str += "\", \"CompanyName\": \"" + companyName.Text;
-                str += "\", \"Address\": \"" + address.Text;
-                str += "\" }";
-
                 wrapper.Add(str);
+            }
+        }
+
+        private void getEmployeeById_Click(object sender, RoutedEventArgs e)
+        {
+            using (Service wrapper = new Service())
+            {
+                MessageBox.Show(wrapper.GetById(employeeId.Text));
             }
         }
     }

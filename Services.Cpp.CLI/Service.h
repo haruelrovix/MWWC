@@ -25,6 +25,8 @@ namespace Services
 				!Service();
 
 				String^ Get();
+
+				String^ GetById(String^ id);
 				
 				void Add(String^ str);
 

@@ -15,6 +15,18 @@ String^ Services::Cpp::CLI::Service::Get()
 	return res;	// Call native Get
 }
 
+String^ Services::Cpp::CLI::Service::GetById(String^ id)
+{
+	VARIANT v = { VT_BSTR };
+	v.bstrVal = (BSTR)Marshal::StringToBSTR(id).ToPointer();
+
+	BSTR val = _impl->GetById(v.bstrVal);
+	String^ res = gcnew String(val);
+	::SysFreeString(val);
+
+	return res;	// Call native GetById
+}
+
 void Services::Cpp::CLI::Service::Add(String^ s)
 {
 	VARIANT v = { VT_BSTR };
