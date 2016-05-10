@@ -66,7 +66,8 @@ namespace Services
 				/// Deletes the specified identifier.
 				/// </summary>
 				/// <param name="id">The identifier.</param>
-				void Delete(String^ id);
+				/// <returns></returns>
+				bool Delete(String^ id);
 
 				/// <summary>
 				/// Destroys this instance.

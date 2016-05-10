@@ -29,7 +29,7 @@
 #endif // !REST_POST
 
 #ifndef REST_DELETE
-#define	REST_DELETE			"DeleteEmployee"
+#define	REST_DELETE			"DeleteEmployee/"
 #endif // !REST_DELETE
 
 #ifndef JSONP

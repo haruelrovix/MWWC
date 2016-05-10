@@ -68,12 +68,13 @@ bool Services::Cpp::CLI::Service::Update(String^ s)
 /// Deletes the specified identifier.
 /// </summary>
 /// <param name="id">The identifier.</param>
-void Services::Cpp::CLI::Service::Delete(String^ id)
+/// <returns></returns>
+bool Services::Cpp::CLI::Service::Delete(String^ id)
 {
 	VARIANT v = { VT_BSTR };
 	v.bstrVal = (BSTR)Marshal::StringToBSTR(id).ToPointer();
 
-	_impl->Delete(v.bstrVal);
+	return _impl->Delete(v.bstrVal);
 }
 
 /// <summary>

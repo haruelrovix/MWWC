@@ -40,6 +40,6 @@ namespace REST_WCF_Service
             UriTemplate = "/DeleteEmployee/{employeeId}",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        void DeleteEmployee(string employeeId);
+        Task<bool> DeleteEmployee(string employeeId);
     }
 }

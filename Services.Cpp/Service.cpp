@@ -46,6 +46,11 @@ BSTR Services::Cpp::Service::Get()
 	HTTPResponse response;
 	istream& rs = session.receiveResponse(response);
 
+	if (response.getStatus() == HTTPResponse::HTTP_INTERNAL_SERVER_ERROR)
+	{
+		return s2bstr(response.getReason());
+	}
+
 	ostringstream os;
 	StreamCopier::copyStream(rs, os);
 
@@ -134,7 +139,8 @@ bool Services::Cpp::Service::Update(BSTR bstr)
 /// Deletes the specified identifier.
 /// </summary>
 /// <param name="id">The identifier.</param>
-void Services::Cpp::Service::Delete(BSTR id)
+/// <returns></returns>
+bool Services::Cpp::Service::Delete(BSTR id)
 {
 	wstring ws(id, ::SysStringLen(id));
 	string uri = URI + static_cast<string>(REST_DELETE) + ws2s(ws);
@@ -150,6 +156,8 @@ void Services::Cpp::Service::Delete(BSTR id)
 
 	ostringstream os;
 	StreamCopier::copyStream(rs, os);
+
+	return os.str() == TRUE;
 }
 
 #pragma endregion

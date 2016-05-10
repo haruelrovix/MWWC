@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Services.WPF"
         xmlns:prop="clr-namespace:Services.WPF.Properties"
-        mc:Ignorable="d"        
+        mc:Ignorable="d"
+        x:Name="MWWC"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         Title="{x:Static prop:Resources.MWWC}" MouseRightButtonDown="ClearTextBox">

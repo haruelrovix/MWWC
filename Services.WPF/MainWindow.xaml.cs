@@ -32,9 +32,17 @@ namespace Services.WPF
             // Using block is here to make sure we release native memory right away
             using (Service wrapper = new Service())
             {
-                _employees = JsonConvert.DeserializeObject<List<Employee>>(wrapper.Get());
-
-                employeesDataGrid.ItemsSource = _employees;
+                string value = wrapper.Get();
+                if (value != Properties.Resources.InternalServerError)
+                {
+                    _employees = JsonConvert.DeserializeObject<List<Employee>>(value);
+                    employeesDataGrid.ItemsSource = _employees;
+                }
+                else
+                {
+                    ShowErrorMessage(value);
+                    MWWC.Close();
+                }
             }
         }
 
@@ -79,12 +87,7 @@ namespace Services.WPF
             {
                 if (!wrapper.Update(ConstructJSON()))
                 {
-                    MessageBox.Show(
-                        string.Format(Properties.Resources.CouldNotFindEmployeeWithID, employeeId.Text),
-                        Properties.Resources.Error,
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error
-                        );
+                    ShowErrorMessage();
                 }
                 else
                 {
@@ -106,10 +109,17 @@ namespace Services.WPF
 
                 Employee employee = JsonConvert.DeserializeObject<Employee>(json);
 
-                name.Text = employee.Name;
-                joiningDate.Text = employee.JoiningDate;
-                companyName.Text = employee.CompanyName;
-                address.Text = employee.Address;
+                if (employee != null)
+                {
+                    name.Text = employee.Name;
+                    joiningDate.Text = employee.JoiningDate;
+                    companyName.Text = employee.CompanyName;
+                    address.Text = employee.Address;
+                }
+                else
+                {
+                    ShowErrorMessage();
+                }
             }
         }
 
@@ -122,10 +132,37 @@ namespace Services.WPF
         {
             using (Service wrapper = new Service())
             {
-                wrapper.Delete(employeeId.Text);
+                if (!wrapper.Delete(employeeId.Text))
+                {
+                    ShowErrorMessage();
+                }
+                else
+                {
+                    GetEmployees();
+                }
             }
+        }
 
-            GetEmployees();
+        /// <summary>
+        /// Shows the error message.
+        /// </summary>
+        private void ShowErrorMessage()
+        {
+            ShowErrorMessage(string.Format(Properties.Resources.CouldNotFindEmployeeWithID, employeeId.Text));
+        }
+
+        /// <summary>
+        /// Shows the error message.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        private void ShowErrorMessage(string text)
+        {
+            MessageBox.Show(
+                text,
+                Properties.Resources.Error,
+                MessageBoxButton.OK,
+                MessageBoxImage.Error
+                );
         }
 
         /// <summary>

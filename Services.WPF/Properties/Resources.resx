@@ -147,6 +147,9 @@
   <data name="ID" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="InternalServerError" xml:space="preserve">
+    <value>Internal Server Error</value>
+  </data>
   <data name="JoiningDate" xml:space="preserve">
     <value>Joining Date</value>
   </data>

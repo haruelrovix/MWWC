@@ -29,14 +29,16 @@ namespace REST_WCF_Service
             await collection.InsertOneAsync(document);
         }
 
-        public async void DeleteEmployee(string employeeId)
+        public async Task<bool> DeleteEmployee(string employeeId)
         {
             MongoClient client = new MongoClient();
             IMongoDatabase database = client.GetDatabase("EmployeeData");
             IMongoCollection<BsonDocument> collection = database.GetCollection<BsonDocument>("Employees");
             FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq("EmployeeID", employeeId);
 
-            await collection.DeleteOneAsync(filter);
+            DeleteResult result = await collection.DeleteOneAsync(filter);
+
+            return result.DeletedCount > 0;
         }
 
         public async Task<List<EmployeeDataContract>> GetAllEmployee()
@@ -66,7 +68,7 @@ namespace REST_WCF_Service
 
         public async Task<EmployeeDataContract> GetEmployeeDetails(string employeeId)
         {
-            EmployeeDataContract emp = new EmployeeDataContract();
+            EmployeeDataContract emp = null;
 
             MongoClient client = new MongoClient();
             IMongoDatabase database = client.GetDatabase("EmployeeData");
@@ -78,6 +80,8 @@ namespace REST_WCF_Service
 
             if (employee != null)
             {
+                emp = new EmployeeDataContract();
+
                 emp.EmployeeID = employee["EmployeeID"].AsString;
                 emp.Name = employee["Name"].AsString;
                 emp.JoiningDate = employee["JoiningDate"].AsString;

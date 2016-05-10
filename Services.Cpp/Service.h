@@ -63,7 +63,8 @@ namespace Services
 			/// Deletes the specified identifier.
 			/// </summary>
 			/// <param name="id">The identifier.</param>
-			void Delete(BSTR id);
+			/// <returns></returns>
+			bool Delete(BSTR id);
 		};
 	}
 }
