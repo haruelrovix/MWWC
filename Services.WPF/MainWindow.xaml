@@ -4,17 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Services.WPF"
-        mc:Ignorable="d"
+        xmlns:prop="clr-namespace:Services.WPF.Properties"
+        mc:Ignorable="d"        
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
-        Title="MWWC">
+        Title="{x:Static prop:Resources.MWWC}" MouseRightButtonDown="ClearTextBox">
     <Grid Margin="10">
         <StackPanel HorizontalAlignment="Left" Height="140" Margin="0,0,0,0" VerticalAlignment="Top" Width="100">
-            <Label x:Name="idLabel" Content="Employee ID" Margin="0,0,0,2"/>
-            <Label x:Name="nameLabel" Content="Name" Margin="0,0,0,2"/>
-            <Label x:Name="joiningDateLabel" Content="Joining Date" Margin="0,0,0,2"/>
-            <Label x:Name="companyNameLabel" Content="Company Name" Margin="0,0,0,2"/>
-            <Label x:Name="addressLabel" Content="Address" Margin="0,0,0,2"/>
+            <Label x:Name="idLabel" Content="{x:Static prop:Resources.EmployeeID}" Margin="0,0,0,2"/>
+            <Label x:Name="nameLabel" Content="{x:Static prop:Resources.EmployeeName}" Margin="0,0,0,2"/>
+            <Label x:Name="joiningDateLabel" Content="{x:Static prop:Resources.JoiningDate}" Margin="0,0,0,2"/>
+            <Label x:Name="companyNameLabel" Content="{x:Static prop:Resources.CompanyName}" Margin="0,0,0,2"/>
+            <Label x:Name="addressLabel" Content="{x:Static prop:Resources.Address}" Margin="0,0,0,2"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Left" Height="160" Margin="100,0,0,0" VerticalAlignment="Top" Width="100">
             <TextBox x:Name="employeeId" Height="23" TextWrapping="Wrap" Text="" Margin="0,0,0,5"/>
@@ -23,10 +24,19 @@
             <TextBox x:Name="companyName" Height="23" TextWrapping="Wrap" Text="" Margin="0,0,0,5"/>
             <TextBox x:Name="address" Height="43" TextWrapping="Wrap" Text="" Margin="0,0,0,5"/>
         </StackPanel>
-        <Button x:Name="addEmployee" Content="Add Employee" HorizontalAlignment="Left" Margin="210,0,0,0" VerticalAlignment="Top" Width="130" Height="35" Click="addEmployee_Click"/>
-        <Button x:Name="getEmployees" Content="Get All Employee" Click="getEmployees_Click" HorizontalAlignment="Left" Margin="210,40,0,0" VerticalAlignment="Top" Width="130" Height="35"/>
-        <Button x:Name="getEmployeeById" Content="Get Employee By ID" Click="getEmployeeById_Click" HorizontalAlignment="Left" Margin="210,80,0,0" VerticalAlignment="Top" Width="130" Height="35"/>
-        <Button x:Name="updateEmployee" Content="Update Employee" HorizontalAlignment="Left" Margin="210,120,0,0" VerticalAlignment="Top" Width="130" Height="35" Click="updateEmployee_Click"/>
-        <Button x:Name="deleteEmployee" Content="Delete Employee" HorizontalAlignment="Left" Margin="210,160,0,0" VerticalAlignment="Top" Width="130" Height="35" Click="deleteEmployee_Click"/>
+        <Button x:Name="addEmployee" Content="{x:Static prop:Resources.AddEmployee}" HorizontalAlignment="Left" Margin="210,0,0,0" VerticalAlignment="Top" Width="130" Height="35" Click="AddEmployee"/>
+        <Button x:Name="getEmployeeById" Content="{x:Static prop:Resources.GetEmployeeByID}" Click="GetEmployeeById" HorizontalAlignment="Left" Margin="210,40,0,0" VerticalAlignment="Top" Width="130" Height="35"/>
+        <Button x:Name="updateEmployee" Content="{x:Static prop:Resources.UpdateEmployee}" HorizontalAlignment="Left" Margin="210,80,0,0" VerticalAlignment="Top" Width="130" Height="35" Click="UpdateEmployee"/>
+        <Button x:Name="deleteEmployee" Content="{x:Static prop:Resources.DeleteEmployee}" HorizontalAlignment="Left" Margin="210,120,0,0" VerticalAlignment="Top" Width="130" Height="35" Click="DeleteEmployee"/>
+
+        <DataGrid x:Name="employeesDataGrid" HorizontalAlignment="Left" Margin="0,160,0,0" VerticalAlignment="Top" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{x:Static prop:Resources.ID}" Binding="{Binding EmployeeID}" />
+                <DataGridTextColumn Header="{x:Static prop:Resources.EmployeeName}" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="{x:Static prop:Resources.JoiningDate}" Binding="{Binding JoiningDate}" />
+                <DataGridTextColumn Header="{x:Static prop:Resources.CompanyName}" Binding="{Binding CompanyName}" />
+                <DataGridTextColumn Header="{x:Static prop:Resources.Address}" Binding="{Binding Address}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

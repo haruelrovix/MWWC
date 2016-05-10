@@ -33,7 +33,7 @@ namespace REST_WCF_Service
             UriTemplate = "/UpdateEmployee",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        void UpdateEmployee(EmployeeDataContract employee);
+        Task<bool> UpdateEmployee(EmployeeDataContract employee);
 
         [OperationContract]
         [WebInvoke(Method = "DELETE",

@@ -32,14 +32,37 @@ namespace Services
 		class __declspec(dllexport) Service
 		{
 		public:
+
+			/// <summary>
+			/// Gets this instance.
+			/// </summary>
+			/// <returns></returns>
 			BSTR Get();
 
+			/// <summary>
+			/// Gets the by identifier.
+			/// </summary>
+			/// <param name="id">The identifier.</param>
+			/// <returns></returns>
 			BSTR GetById(BSTR id);
 
+			/// <summary>
+			/// Adds the specified BSTR.
+			/// </summary>
+			/// <param name="bstr">The BSTR.</param>
 			void Add(BSTR bstr);
 
-			void Update(BSTR bstr);
+			/// <summary>
+			/// Updates the specified BSTR.
+			/// </summary>
+			/// <param name="bstr">The BSTR.</param>
+			/// <returns></returns>
+			bool Update(BSTR bstr);
 
+			/// <summary>
+			/// Deletes the specified identifier.
+			/// </summary>
+			/// <param name="id">The identifier.</param>
 			void Delete(BSTR id);
 		};
 	}

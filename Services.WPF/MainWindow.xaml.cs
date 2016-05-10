@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Services.Cpp.CLI;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace Services.WPF
@@ -9,53 +10,95 @@ namespace Services.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// The _employees
+        /// </summary>
+        private List<Employee> _employees;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow" /> class.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
+            GetEmployees();
         }
 
-        private void getEmployees_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Gets the employees.
+        /// </summary>
+        private void GetEmployees()
         {
-            using (Service wrapper = new Service())
             // Using block is here to make sure we release native memory right away
-            {
-                MessageBox.Show(wrapper.Get());
-            }
-        }
-
-        private void addEmployee_Click(object sender, RoutedEventArgs e)
-        {
-            string str = "{ ";
-            str += "\"EmployeeID\": \"" + employeeId.Text;
-            str += "\", \"Name\": \"" + name.Text;
-            str += "\", \"JoiningDate\": \"" + joiningDate.Text;
-            str += "\", \"CompanyName\": \"" + companyName.Text;
-            str += "\", \"Address\": \"" + address.Text;
-            str += "\" }";
-
             using (Service wrapper = new Service())
             {
-                wrapper.Add(str);
+                _employees = JsonConvert.DeserializeObject<List<Employee>>(wrapper.Get());
+
+                employeesDataGrid.ItemsSource = _employees;
             }
         }
 
-        private void updateEmployee_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Constructs the json.
+        /// </summary>
+        /// <returns></returns>
+        private string ConstructJSON()
         {
-            string str = "{ ";
-            str += "\"EmployeeID\": \"" + employeeId.Text;
-            str += "\", \"Name\": \"" + name.Text;
-            str += "\", \"JoiningDate\": \"" + joiningDate.Text;
-            str += "\", \"CompanyName\": \"" + companyName.Text;
-            str += "\", \"Address\": \"" + address.Text;
-            str += "\" }";
+            return "{ " +
+            "\"EmployeeID\": \"" + employeeId.Text +
+            "\", \"Name\": \"" + name.Text +
+            "\", \"JoiningDate\": \"" + joiningDate.Text +
+            "\", \"CompanyName\": \"" + companyName.Text +
+            "\", \"Address\": \"" + address.Text +
+            "\" }";
+        }
 
+        /// <summary>
+        /// Handles the Click event of the addEmployee control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void AddEmployee(object sender, RoutedEventArgs e)
+        {
             using (Service wrapper = new Service())
             {
-                wrapper.Update(str);
+                wrapper.Add(ConstructJSON());
+            }
+
+            GetEmployees();
+        }
+
+        /// <summary>
+        /// Handles the Click event of the updateEmployee control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void UpdateEmployee(object sender, RoutedEventArgs e)
+        {
+            using (Service wrapper = new Service())
+            {
+                if (!wrapper.Update(ConstructJSON()))
+                {
+                    MessageBox.Show(
+                        string.Format(Properties.Resources.CouldNotFindEmployeeWithID, employeeId.Text),
+                        Properties.Resources.Error,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                        );
+                }
+                else
+                {
+                    GetEmployees();
+                }
             }
         }
 
-        private void getEmployeeById_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Handles the Click event of the getEmployeeById control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void GetEmployeeById(object sender, RoutedEventArgs e)
         {
             using (Service wrapper = new Service())
             {
@@ -70,12 +113,33 @@ namespace Services.WPF
             }
         }
 
-        private void deleteEmployee_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Handles the Click event of the deleteEmployee control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void DeleteEmployee(object sender, RoutedEventArgs e)
         {
             using (Service wrapper = new Service())
             {
                 wrapper.Delete(employeeId.Text);
             }
+
+            GetEmployees();
+        }
+
+        /// <summary>
+        /// Handles the MouseRightButtonDown event of the Mouse control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.Input.MouseButtonEventArgs" /> instance containing the event data.</param>
+        private void ClearTextBox(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            employeeId.Text = string.Empty;
+            name.Text = string.Empty;
+            joiningDate.Text = string.Empty;
+            companyName.Text = string.Empty;
+            address.Text = string.Empty;
         }
     }
 }

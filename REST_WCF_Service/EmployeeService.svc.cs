@@ -88,7 +88,7 @@ namespace REST_WCF_Service
             return emp;
         }
 
-        public async void UpdateEmployee(EmployeeDataContract employee)
+        public async Task<bool> UpdateEmployee(EmployeeDataContract employee)
         {
             MongoClient client = new MongoClient();
             IMongoDatabase database = client.GetDatabase("EmployeeData");
@@ -105,7 +105,9 @@ namespace REST_WCF_Service
 
             FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq("EmployeeID", employee.EmployeeID);
 
-            await collection.ReplaceOneAsync(filter, document);
+            ReplaceOneResult result = await collection.ReplaceOneAsync(filter, document);
+
+            return result.ModifiedCount > 0;
         }
     }
 }

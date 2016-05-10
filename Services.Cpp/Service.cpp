@@ -1,4 +1,5 @@
 // Services.Cpp/Service.cpp
+#include "Resource.h"
 #include "Service.h"
 
 #pragma region Private Methods
@@ -27,11 +28,18 @@ string ws2s(const std::wstring& wstr)
 
 #pragma endregion
 
+#pragma region Public Methods
+
+/// <summary>
+/// Gets this instance.
+/// </summary>
+/// <returns></returns>
 BSTR Services::Cpp::Service::Get()
 {
-	HTTPClientSession session("localhost", 57313);
-	HTTPRequest request(HTTPRequest::HTTP_GET, "/EmployeeService.svc/GetAllEmployee/", HTTPMessage::HTTP_1_1);
-	request.setHost("localhost", 57313);
+	HTTPClientSession session(HOSTNAME, PORT);
+	string uri = URI + static_cast<string>(REST_GET);
+	HTTPRequest request(HTTPRequest::HTTP_GET, uri, HTTPMessage::HTTP_1_1);
+	request.setHost(HOSTNAME, PORT);
 	request.setKeepAlive(false);
 	session.sendRequest(request);
 
@@ -44,14 +52,19 @@ BSTR Services::Cpp::Service::Get()
 	return s2bstr(os.str());
 }
 
+/// <summary>
+/// Gets the by identifier.
+/// </summary>
+/// <param name="id">The identifier.</param>
+/// <returns></returns>
 BSTR Services::Cpp::Service::GetById(BSTR id)
 {
 	wstring ws(id, ::SysStringLen(id));
-	string str = ws2s(ws);
+	string uri = URI + static_cast<string>(REST_GET_BY_ID) + ws2s(ws);
 
-	HTTPClientSession session("localhost", 57313);
-	HTTPRequest request(HTTPRequest::HTTP_GET, "/EmployeeService.svc/GetEmployeeDetails/" + str, HTTPMessage::HTTP_1_1);
-	request.setHost("localhost", 57313);
+	HTTPClientSession session(HOSTNAME, PORT);
+	HTTPRequest request(HTTPRequest::HTTP_GET, uri, HTTPMessage::HTTP_1_1);
+	request.setHost(HOSTNAME, PORT);
 	request.setKeepAlive(false);
 	session.sendRequest(request);
 
@@ -64,13 +77,18 @@ BSTR Services::Cpp::Service::GetById(BSTR id)
 	return s2bstr(os.str());
 }
 
+/// <summary>
+/// Adds the specified BSTR.
+/// </summary>
+/// <param name="bstr">The BSTR.</param>
 void Services::Cpp::Service::Add(BSTR bstr)
 {
-	HTTPClientSession session("localhost", 57313);
-	HTTPRequest request(HTTPRequest::HTTP_POST, "/EmployeeService.svc/AddNewEmployee", HTTPMessage::HTTP_1_1);
-	request.setHost("localhost", 57313);
+	HTTPClientSession session(HOSTNAME, PORT);
+	string uri = URI + static_cast<string>(REST_POST);
+	HTTPRequest request(HTTPRequest::HTTP_POST, uri, HTTPMessage::HTTP_1_1);
+	request.setHost(HOSTNAME, PORT);
 	request.setKeepAlive(false);
-	request.setContentType("application/json");
+	request.setContentType(JSONP);
 
 	wstring ws(bstr, ::SysStringLen(bstr));
 	string str = ws2s(ws);
@@ -84,13 +102,19 @@ void Services::Cpp::Service::Add(BSTR bstr)
 	StreamCopier::copyStream(is, os);
 }
 
-void Services::Cpp::Service::Update(BSTR bstr)
+/// <summary>
+/// Updates the specified BSTR.
+/// </summary>
+/// <param name="bstr">The BSTR.</param>
+/// <returns></returns>
+bool Services::Cpp::Service::Update(BSTR bstr)
 {
-	HTTPClientSession session("localhost", 57313);
-	HTTPRequest request(HTTPRequest::HTTP_PUT, "/EmployeeService.svc/UpdateEmployee", HTTPMessage::HTTP_1_1);
-	request.setHost("localhost", 57313);
+	HTTPClientSession session(HOSTNAME, PORT);
+	string uri = URI + static_cast<string>(REST_PUT);
+	HTTPRequest request(HTTPRequest::HTTP_PUT, uri, HTTPMessage::HTTP_1_1);
+	request.setHost(HOSTNAME, PORT);
 	request.setKeepAlive(false);
-	request.setContentType("application/json");
+	request.setContentType(JSONP);
 
 	wstring ws(bstr, ::SysStringLen(bstr));
 	string str = ws2s(ws);
@@ -102,16 +126,22 @@ void Services::Cpp::Service::Update(BSTR bstr)
 
 	ostringstream os;
 	StreamCopier::copyStream(is, os);
+
+	return os.str() == TRUE;
 }
 
+/// <summary>
+/// Deletes the specified identifier.
+/// </summary>
+/// <param name="id">The identifier.</param>
 void Services::Cpp::Service::Delete(BSTR id)
 {
 	wstring ws(id, ::SysStringLen(id));
-	string str = ws2s(ws);
+	string uri = URI + static_cast<string>(REST_DELETE) + ws2s(ws);
 
-	HTTPClientSession session("localhost", 57313);
-	HTTPRequest request(HTTPRequest::HTTP_DELETE, "/EmployeeService.svc/DeleteEmployee/" + str, HTTPMessage::HTTP_1_1);
-	request.setHost("localhost", 57313);
+	HTTPClientSession session(HOSTNAME, PORT);
+	HTTPRequest request(HTTPRequest::HTTP_DELETE, uri, HTTPMessage::HTTP_1_1);
+	request.setHost(HOSTNAME, PORT);
 	request.setKeepAlive(false);
 	session.sendRequest(request);
 
@@ -121,3 +151,5 @@ void Services::Cpp::Service::Delete(BSTR id)
 	ostringstream os;
 	StreamCopier::copyStream(rs, os);
 }
+
+#pragma endregion
